@@ -59,7 +59,7 @@ int main (int argc, char** argv)
    glutInitWindowPosition(0, 0); 
    
    // Giving name to window 
-   glutCreateWindow("Circle Drawing"); 
+   glutCreateWindow("Line Drawing"); 
    myInit(); 
    
    glutDisplayFunc(display); 
