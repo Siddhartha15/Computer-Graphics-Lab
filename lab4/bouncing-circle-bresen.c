@@ -1,49 +1,49 @@
-#include <stdio.h> 
-#include <GL/glut.h> 
-#include <math.h> 
+#include<stdio.h> 
+#include<GL/glut.h> 
+#include<math.h> 
 #define pi 3.142857 
 
-int refreshMillis = 30; 
-int windowWidth  = 640;     // Windowed mode's width
-int windowHeight = 480;     // Windowed mode's height
+int  xc=0;
+int yc=0;
+int r=50;
+int refreshMillis=10;
 
- 
- int r = 100;   // Radius of the bouncing ball
-int xc= 320;         // Ball's center (x, y) position
-int yc = 240;
-// int ballXMax, ballXMin, ballYMax, ballYMin; // Ball's center (x, y) bounds
-// int xSpeed = 0;      // Ball's speed in x and y directions
-// int ySpeed = 1;
-int f=0;
+int ballXMax=780, ballXMin=-780, ballYMax=420, ballYMin=-420; // Ball's center (x, y) bounds
+
+int xSpeed = 75;      // Ball's speed in x and y directions
+int ySpeed = 25;
+
+
+
 void myInit (void) 
 { 
    glClearColor(0.0, 0.0, 0.0, 1.0); 
    glColor3f(0.0, 1.0, 0.0); 
-   gluOrtho2D(0, 640, 0, 480); 
-
+   glPointSize(1.0); 
+   glMatrixMode(GL_PROJECTION); 
+   glLoadIdentity(); 
+   gluOrtho2D(-780, 780, -420, 420); 
 } 
 
-void drawCircle(int xc, int yc, int x, int y) 
+void drawCircle(int c1, int c2, int x, int y) 
 { 
    
    glBegin(GL_POINTS);
-   glVertex2i(xc+x, yc+y); 
-   glVertex2i(xc-x, yc+y); 
-   glVertex2i(xc+x, yc-y); 
-   glVertex2i(xc-x, yc-y); 
-   glVertex2i(xc+y, yc+x); 
-   glVertex2i(xc-y, yc+x); 
-   glVertex2i(xc+y, yc-x); 
-   glVertex2i(xc-y, yc-x); 
+   glVertex2i(c1+x, c2+y); 
+   glVertex2i(c1-x, c2+y); 
+   glVertex2i(c1+x, c2-y); 
+   glVertex2i(c1-x, c2-y); 
+   glVertex2i(c1+y, c2+x); 
+   glVertex2i(c1-y, c2+x); 
+   glVertex2i(c1+y, c2-x); 
+   glVertex2i(c1-y, c2-x); 
    glEnd();
 } 
-
-void bresenCircle(int xc,int yc)
+void bresenCircle(int c1,int c2)
 {
-   glClear(GL_COLOR_BUFFER_BIT);
    int x = 0, y = r; 
    int d = 3 - 2 * r; 
-   drawCircle(xc, yc, x, y); 
+   drawCircle(c1, c2, x, y); 
    while (y >= x) 
    { 
       x++; 
@@ -54,58 +54,64 @@ void bresenCircle(int xc,int yc)
       } 
       else
          d = d + 4 * x + 6; 
-      drawCircle(xc, yc, x, y); 
+      drawCircle(c1, c2, x, y); 
       // delay(50); 
    } 
 }
 void display (void) 
 { 
-  
+   glClear(GL_COLOR_BUFFER_BIT); 
+
    bresenCircle(xc,yc);
 
-    // if(f == 0)
-    // {
-    //   if(yc == 480 - r)
-    //   {
-    //     yc--;
-    //     f=1;
-    //   }
-    //   else
-    //       yc++;
-    // }
-    // else
-    // {
-    //   if(yc == r)
-    //   {
-    //     yc++;
-    //     f=0;
-    //   }
-    //   else
-    //     yc--;
-    // }
+   glFlush();
+
+   xc += xSpeed;
+   yc += ySpeed;
+   // Check if the ball exceeds the edges
+   if (xc+r > ballXMax) {
+      xc = ballXMax-r;
+      xSpeed = -xSpeed;
+   } else if (xc-r< ballXMin) {
+      xc = ballXMin+r;
+      xSpeed = -xSpeed;
+   }
+   if (yc+r > ballYMax) {
+      yc = ballYMax-r;
+      ySpeed = -ySpeed;
+   } else if (yc-r < ballYMin) {
+      yc = ballYMin+r;
+      ySpeed = -ySpeed;
+   }
 } 
 void Timer(int value) {
    glutPostRedisplay();    // Post a paint request to activate display()
    glutTimerFunc(refreshMillis, Timer, 0); // subsequent timer call at milliseconds
 }
+
 int main (int argc, char** argv) 
 { 
+   //  printf("Enter the value of xc : ");
+   // scanf("%d",&xc);
+   // printf("Enter the value of yc : ");
+   // scanf("%d",&yc);
+   // printf("Enter the Radius R : ");
+   // scanf("%d",&r);
+
 
    glutInit(&argc, argv); 
-   glutInitDisplayMode( GLUT_RGB); 
+   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); 
    
    // giving window size in X- and Y- direction 
-   glutInitWindowSize(640, 480); 
+   glutInitWindowSize(1366, 768); 
    glutInitWindowPosition(0, 0); 
-      myInit(); 
+   
    // Giving name to window 
-   glutCreateWindow("Bouncing Circle Drawing"); 
+   glutCreateWindow("Circle Drawing"); 
+   myInit(); 
    
    glutDisplayFunc(display);
    glutTimerFunc(0, Timer, 0); 
-
-   
    glutMainLoop(); 
-   return 0;
 } 
    
