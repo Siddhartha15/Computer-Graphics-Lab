@@ -3,43 +3,66 @@
 #include<math.h> 
 #define pi 3.142857 
 
-int  X1,Y1,X2,Y2;
+int r;
 
 void myInit (void) 
 { 
    glClearColor(0.0, 0.0, 0.0, 1.0); 
    glColor3f(0.0, 1.0, 0.0); 
    glPointSize(1.0); 
-   glMatrixMode(GL_PROJECTION); 
-   glLoadIdentity(); 
+   // glMatrixMode(GL_PROJECTION); 
+   // glLoadIdentity(); 
    gluOrtho2D(-780, 780, -420, 420); 
 } 
 
-void display (void) 
+void drawCircle(int xc, int yc, int x, int y) 
 { 
-   glClear(GL_COLOR_BUFFER_BIT); 
    
-   int err=0;
-   int x,y;
-
-   for (x = X1, y = Y1; x <= X2; x++) 
-   { 
+   glBegin(GL_POINTS);
+   glVertex2i(xc+x, yc+y); 
+   glVertex2i(xc-x, yc+y); 
+   glVertex2i(xc+x, yc-y); 
+   glVertex2i(xc-x, yc-y); 
+   glVertex2i(xc+y, yc+x); 
+   glVertex2i(xc-y, yc+x); 
+   glVertex2i(xc+y, yc-x); 
+   glVertex2i(xc-y, yc-x); 
+   glEnd();
+} 
+void bresenLine1(int X1,int Y1,int X2,int Y2 )
+{
+   float dy,dx,step,x,y,k,Xin,Yin;
+   dx=X2-X1;
+   dy=Y2-Y1;
+    
+   if(abs(dx)> abs(dy))
+   {
+   step = abs(dx);
+   }
+   else
+   step = abs(dy);
+    
+   Xin = dx/step;
+   Yin = dy/step;
+    
+   x= X1;
+   y=Y1;
+   glBegin(GL_POINTS);
+   glVertex2i(x,y);
+   glEnd();
+    
+   for (k=1 ;k<=step;k++)
+   {
+      x= x + Xin;
+      y= y + Yin;
+       
       glBegin(GL_POINTS);
       glVertex2i(x,y);
       glEnd();
-      
-      if((2*(err+(Y2-Y1))) < (X2-X1))
-            err+=(Y2-Y1);
-      else
-      {
-         y++;
-         err+=(Y2-Y1)-(X2-X1);
-      }
    }
-
-   glFlush(); 
-} 
-void bresen(int X1,int Y1,int X2,int Y2)
+ 
+}
+void bresenLine(int X1,int Y1,int X2,int Y2)
 {
        //calculating range for line between start and end point
     int dx = X2 - X1;
@@ -55,8 +78,8 @@ void bresen(int X1,int Y1,int X2,int Y2)
       glVertex2i(x,y);
       glEnd();
         int pk = (2 * abs(dy)) - abs(dx);
-
-        for(int i = 0; i < abs(dx) ; i++)
+         int i;
+        for( i = 0; i < abs(dx) ; i++)
         {
             x = x + 1;
             if(pk < 0)
@@ -79,8 +102,8 @@ void bresen(int X1,int Y1,int X2,int Y2)
          glVertex2i(x,y);
          glEnd();
         int pk = (2 * abs(dx)) - abs(dy);
-
-        for(int i = 0; i < abs(dy) ; i++)
+         int i;
+        for( i= 0; i < abs(dy) ; i++)
         {
             y = y + 1;
             if(pk < 0)
@@ -99,17 +122,48 @@ void bresen(int X1,int Y1,int X2,int Y2)
 
         // delay(30);
     }
+
 }
+void bresenCircle(int xc,int yc,int r)
+{
+   int x = 0, y = r; 
+   int d = 3 - 2 * r; 
+   drawCircle(xc, yc, x, y); 
+   while (y >= x) 
+   { 
+      x++; 
+      if (d > 0) 
+      { 
+         y--; 
+         d = d + 4 * (x - y) + 10; 
+      } 
+      else
+         d = d + 4 * x + 6; 
+      drawCircle(xc, yc, x, y); 
+      // delay(50); 
+   } 
+}
+void display (void) 
+{ 
+   glClear(GL_COLOR_BUFFER_BIT); 
+   bresenCircle(0,0,r);
+    bresenCircle(50,0,r);
+     bresenCircle(-50,0,r);
+   bresenLine(0,r,0,200);
+   bresenLine(-50,r,0,200);
+   bresenLine1(50,r,0,200);
+   glFlush(); 
+} 
+
 int main (int argc, char** argv) 
 { 
-    printf("Enter the value of x1 : ");
-   scanf("%d",&X1);
-   printf("Enter the value of y1 : ");
-   scanf("%d",&Y1);
-   printf("Enter the value of x2 : ");
-   scanf("%d",&X2);
-   printf("Enter the value of y2 : ");
-   scanf("%d",&Y2);
+   //  printf("Enter the value of xc : ");
+   // scanf("%d",&xc);
+   // printf("Enter the value of yc : ");
+   // scanf("%d",&yc);
+   printf("Enter the Radius R : ");
+   scanf("%d",&r);
+
 
    glutInit(&argc, argv); 
    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); 
@@ -119,7 +173,7 @@ int main (int argc, char** argv)
    glutInitWindowPosition(0, 0); 
    
    // Giving name to window 
-   glutCreateWindow("Line Drawing"); 
+   glutCreateWindow("Circle Drawing"); 
    myInit(); 
    
    glutDisplayFunc(display); 
