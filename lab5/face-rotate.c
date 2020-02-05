@@ -84,6 +84,15 @@ void keyboard(unsigned char key, int x, int y)
     }
     glutPostRedisplay();
   }
+   else if(key=='l')
+  {
+    angle-=5.0f;
+    if(angle<-360.0)
+    {
+      angle=360.0-angle;
+    }
+    glutPostRedisplay();
+  }
 }
 
 void myInit (void) 
@@ -99,24 +108,24 @@ void drawLeft()
 {
   glPushMatrix();
   float x_a,y_a;
-  x_a = 150;
-  y_a = 200;
+  x_a = xb;
+  y_a = yb;
   glTranslatef(x_a*1.0f, y_a*1.0f, 0.0f);
     glRotatef(angle,0.0f,0.0f, 1.0f); // rotate by angle in degrees
    glTranslatef(-x_a*1.0f, -y_a*1.0f, 0.0f);
-    bresenCircle(150,230,10);
+    bresenCircle(150,230,10); // xc1 yc1
      glPopMatrix();   
 }
 void drawRight()
 {
    glPushMatrix();
   float x_a,y_a;
-  x_a = 350;
-  y_a = 200;
+  x_a = xc;
+  y_a = yc;
    glTranslatef(x_a*1.0f, y_a*1.0f, 0.0f);
     glRotatef(angle,0.0f,0.0f, 1.0f); // rotate by angle in degrees
    glTranslatef(-x_a*1.0f, -y_a*1.0f, 0.0f);
-     bresenCircle(350,230,10);
+     bresenCircle(350,230,10); // xc2 yc2
       glPopMatrix();   
 }
 void display (void) 
@@ -125,10 +134,10 @@ void display (void)
   glMatrixMode(GL_MODELVIEW);    // To operate on the model-view matrix
   glLoadIdentity();              // Reset model-view matrix
   glPushMatrix();
-  bresenCircle(250,250,200);
+  bresenCircle(250,250,200); // xa ya
 
-  bresenCircle(150,200,50);
-  bresenCircle(350,200,50);
+  bresenCircle(150,200,50); // xb yb
+  bresenCircle(350,200,50); // xc yc
 
   drawLeft();
   drawRight();

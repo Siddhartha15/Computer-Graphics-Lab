@@ -7,7 +7,7 @@
 #define pi 3.142857 
 
 int xc,yc,R;
-int  tx,ty;
+float s;
 void myInit (void) 
 { 
    glClearColor(0.0, 0.0, 0.0, 1.0); 
@@ -55,7 +55,7 @@ void display (void)
 { 
    glClear(GL_COLOR_BUFFER_BIT); 
    bresenCircle(xc,yc,R);
-   bresenCircle(xc*tx,yc*ty,R);
+   bresenCircle(xc,yc,R*s);
    glFlush();
 
 } 
@@ -67,8 +67,8 @@ int main (int argc, char** argv)
     scanf("%d %d",&xc,&yc);
     printf("Enter r\n");
     scanf("%d",&R);
-    printf("Enter tx,ty\n");
-    scanf("%d %d",&tx,&ty);
+    printf("Enter s\n");
+    scanf("%f",&s);
    glutInit(&argc, argv); 
    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); 
    

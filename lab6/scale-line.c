@@ -7,7 +7,7 @@
 #define pi 3.142857 
 
 float xa,ya,xb,yb;
-float sx,sy;
+float s;
 void myInit (void) 
 { 
    glClearColor(0.0, 0.0, 0.0, 1.0); 
@@ -59,8 +59,9 @@ void display (void)
    glVertex2f(xb, yb);
    glEnd();
    glBegin(GL_LINES);
-   glVertex2f(xa*sx, ya*sy); 
-   glVertex2f(xb*sx, yb*sy);
+   glColor3f(1.0,0.0,0.0);
+   glVertex2f(xa, ya); 
+   glVertex2f(xb*s, yb*s);
    glEnd();
    glFlush();
 
@@ -73,8 +74,8 @@ int main (int argc, char** argv)
     scanf("%f %f",&xa,&ya);
     printf("Enter x2,y2\n");
     scanf("%f %f",&xb,&yb);
-    printf("Enter sx,sy\n");
-    scanf("%f %f",&sx,&sy);
+    printf("Enter s\n");
+    scanf("%f",&s);
    glutInit(&argc, argv); 
    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); 
    

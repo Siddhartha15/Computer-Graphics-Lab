@@ -31,17 +31,13 @@ void display (void)
    glVertex2f(xc, yc);
    glVertex2f(xa, ya);   
    glEnd();
-   
-   float tx = (((xa+xb+xc)*s)/3) -((xa+xb+xc)/3) ;
-  float ty = (((ya+yb+yc)*s)/3) -((ya+yb+yc)/3);
-
-  glBegin(GL_LINES);
-   glVertex2f(xa*s -tx, ya*s-ty); 
-   glVertex2f(xb*s-tx, yb*s-ty);
-   glVertex2f(xb*s-tx, yb*s-ty);
-   glVertex2f(xc*s-tx, yc*s-ty);  
-   glVertex2f(xc*s-tx, yc*s-ty);
-   glVertex2f(xa*s-tx, ya*s-ty); 
+   glBegin(GL_LINES);
+    glVertex2f(-xa, ya); 
+   glVertex2f(-xb, yb);
+   glVertex2f(-xb, yb);
+   glVertex2f(-xc, yc);
+   glVertex2f(-xc, yc);
+   glVertex2f(-xa, ya);  
    glEnd();
    glFlush();
 
@@ -56,8 +52,8 @@ int main (int argc, char** argv)
     scanf("%d %d",&xb,&yb);
     printf("Enter x3,y3\n");
     scanf("%d %d",&xc,&yc);
-    printf("Enter s\n");
-    scanf("%d",&s);
+    // printf("Enter s\n");
+    // scanf("%d",&s);
    glutInit(&argc, argv); 
    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); 
    
