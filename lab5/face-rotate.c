@@ -8,6 +8,7 @@ float scalf=1.0;
 GLfloat angle = 0.0f;  // rotational angle of the shapes
 int refreshMills = 30;
 
+ int xa=250,ya=250,xb=150,yb,xc,yc,xc1,yc1,xc2,yc2;
 
 void Timer(int value) {
    glutPostRedisplay();      // Post re-paint request to activate display()
@@ -46,22 +47,6 @@ void bresenCircle(int c1,int c2,int r)
       drawCircle(c1, c2, x, y); 
    } 
 }
-// void drawStar(int x, int y)
-// {
-  
-//   glScalef(scalf,scalf,0.0);
-//   glBegin(GL_TRIANGLES);
-//   // glColor3f(1.0, 0.0, 0.0);
-//   glVertex2i(x, y);
-//   glVertex2i(x-10, y-20);
-//   glVertex2i(x+10, y-20);
-  
-//   glVertex2i(x, y-25);
-//   glVertex2i(x-10, y-5);
-//   glVertex2i(x+10, y-5);
-//   glEnd();
-
-// }
 
 void keyboard(unsigned char key, int x, int y)
 {

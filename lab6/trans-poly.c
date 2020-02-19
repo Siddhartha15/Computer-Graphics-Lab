@@ -1,5 +1,3 @@
-// 8*8 chess board
-
 
 #include<stdio.h> 
 #include<GL/glut.h> 
