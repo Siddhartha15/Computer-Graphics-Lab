@@ -131,7 +131,7 @@ glEnd();
 void init()
 {
     glClearColor(0.0,0.0,0.0,1.0); //set backgrond color to white
-    glOrtho(-454.0,454.0,-250.0,250.0,-250.0,250.0);
+    glOrtho(-454.0,454.0,-250.0,250.0,-250.0,250.0); // l r b t n f
     // Set the no. of Co-ordinates along X & Y axes and their gappings
     glEnable(GL_DEPTH_TEST);
      // To Render the surfaces Properly according to their depths
@@ -227,5 +227,5 @@ int main(int argc, char** argv)
     glutDisplayFunc(display);
     init();
     glutMainLoop();
-return 0;
+    return 0;
 }
