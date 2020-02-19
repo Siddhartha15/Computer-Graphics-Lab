@@ -21,7 +21,7 @@ float tx,ty,tz;
 float sx,sy,sz;
 float angle;
 
-int choice,choiceRot;
+int choice,choiceRot,choiceRfl;
 
 void setIdentityM(Matrix4 m)
 {
@@ -33,19 +33,22 @@ for(int i=0;i<4;i++)
 void translate(int tx,int ty,int tz)
 {
 
-for(int i=0;i<8;i++)
-{
-output[i][0]=input[i][0]+tx;
-output[i][1]=input[i][1]+ty;
-output[i][2]=input[i][2]+tz;
+    for(int i=0;i<8;i++)
+    {
+    output[i][0]=input[i][0]+tx;
+    output[i][1]=input[i][1]+ty;
+    output[i][2]=input[i][2]+tz;
+    }
 }
-}
+
 void scale(int sx,int sy,int sz)
 {
     theMatrix[0][0]=sx;
     theMatrix[1][1]=sy;
     theMatrix[2][2]=sz;
 }
+
+ // Rotation
 void RotateX(float angle) //Parallel to x
 {
 
@@ -76,11 +79,37 @@ void RotateZ(float angle) //parallel to z
  theMatrix[1][1] = cos(angle);
 
 }
+ // reflection
+void RflXY()
+{
+    for(int i=0;i<8;i++)
+    {
+    output[i][0]=input[i][0];
+    output[i][1]=input[i][1];
+    output[i][2]=-input[i][2];
+    }
+}
+void RflYZ()
+{
+    for(int i=0;i<8;i++)
+    {
+    output[i][0]=-input[i][0];
+    output[i][1]=input[i][1];
+    output[i][2]=input[i][2];
+    }
+}
+void RflXZ()
+{
+    for(int i=0;i<8;i++)
+    {
+    output[i][0]=input[i][0];
+    output[i][1]=-input[i][1];
+    output[i][2]=input[i][2];
+    }
+}
 
 void multiplyM()
 {
-//We Don't require 4th row and column in scaling and rotation
-//[8][3]=[8][3]*[3][3] //4th not used
 for(int i=0;i<8;i++)
  {
     for(int j=0;j<3;j++)
@@ -129,7 +158,7 @@ glVertex3fv(a[3]);
 glVertex3fv(a[7]);
 glVertex3fv(a[6]);
 
-glColor3f(1.0,0.1,0.1);
+glColor3f(0.9,0.1,0.9);//front
 glVertex3fv(a[4]);
 glVertex3fv(a[5]);
 glVertex3fv(a[6]);
@@ -150,7 +179,7 @@ void init()
 void display()
 {
 glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-// Axes();
+
 glColor3f(1.0,0.0,0.0);
 
 draw(input);
@@ -182,6 +211,21 @@ case 1:
     }
 	multiplyM();
     break;
+case 4:
+    switch (choiceRfl) {
+    case 1:
+        RflXY();
+        break;
+    case 2: 
+        RflYZ();
+        break;
+    case 3:
+        RflXZ();
+        break;
+    default:
+        break;
+    }
+    break;
 }
 
 draw(output);
@@ -192,7 +236,7 @@ glFlush();
 
 int main(int argc, char** argv)
 {
-    cout<<"Enter your choice number:\n1.Translation\n2.Scaling\n3.Rotation\n=>";
+    cout<<"Enter your choice number:\n1.Translation\n2.Scaling\n3.Rotation\n4.Reflection\n=>";
     cin>>choice;
     switch (choice) {
     case 1:
@@ -224,6 +268,11 @@ int main(int argc, char** argv)
         default:
             break;
         }
+        break;
+    case 4:cout<<"Enter your choice for Reflection about:\n1. XY plane"
+             <<"\n2. YZ plane\n3. XZ plane"
+              <<"\n =>";
+        cin>>choiceRfl;
         break;
     default:
         break;

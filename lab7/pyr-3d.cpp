@@ -79,8 +79,6 @@ void RotateZ(float angle) //parallel to z
 
 void multiplyM()
 {
-//We Don't require 4th row and column in scaling and rotation
-//[8][3]=[8][3]*[3][3] //4th not used
 for(int i=0;i<5;i++)
  {
     for(int j=0;j<3;j++)
